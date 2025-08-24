@@ -1,39 +1,51 @@
 import customtkinter as ctk
+import threading
+import time
 
-ctk.set_appearance_mode("System")  # Options: "Light", "Dark", "System"
-ctk.set_default_color_theme("blue")  # Optional: blue, green, dark-blue, etc.
+class CoolProgressBar(ctk.CTkFrame):
+    def __init__(self, master, width=400, height=30, text="Downloading..."):
+        super().__init__(master)
+        self.grid_columnconfigure(0, weight=1)
 
-class App(ctk.CTk):
-    def __init__(self):
-        super().__init__()
+        self.label = ctk.CTkLabel(self, text=text, font=("Segoe UI", 14))
+        self.label.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="w")
 
-        self.title("CTkTabview Example")
-        self.geometry("500x400")
+        self.progressbar = ctk.CTkProgressBar(self, width=width, height=height, corner_radius=10)
+        self.progressbar.grid(row=1, column=0, padx=5, pady=10, sticky="ew")
 
-        # Create Tabview
-        tabview = ctk.CTkTabview(self, width=480, height=350)
-        tabview.pack(padx=20, pady=20, fill="both", expand=True)
+        self.progressbar.set(0)  # Start at 0
 
-        # Add tabs
-        tabview.add("Tab 1")
-        tabview.add("Tab 2")
-        tabview.add("Tab 3")
+    def set_progress(self,master, value: float):
+        """Set progress between 0.0 and 1.0"""
+        self.progressbar.set(value)
+        self.label.configure(text=f"Sending Data to your lover: {int(value * 100)}%")
+        if value >= 1.0:
+            self.after(500, master.destroy)
 
-        # Access tabs via tabview.tab("Tab Name")
-        tab1 = tabview.tab("Tab 1")
-        tab2 = tabview.tab("Tab 2")
-        tab3 = tabview.tab("Tab 3")
+    def animate_progress(self, duration=5):
+        """Simulate progress animation for demonstration"""
+        def run():
+            for i in range(101):
+                self.set_progress(self,i / 100)
+                time.sleep(duration / 100)
+        threading.Thread(target=run, daemon=True).start()
+        
 
-        # Add widgets to Tab 1
-        ctk.CTkLabel(tab1, text="This is Tab 1").pack(pady=10)
-        ctk.CTkEntry(tab1, placeholder_text="Enter something").pack(pady=5)
-
-        # Add widgets to Tab 2
-        ctk.CTkLabel(tab2, text="This is Tab 2").pack(pady=10)
-        ctk.CTkButton(tab2, text="Click Me").pack(pady=5)
-
-        # Tab 3 can be empty or filled later
-
+# Demo usage
 if __name__ == "__main__":
-    app = App()
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("blue")
+
+    app = ctk.CTk()
+    app.title("Cool Progress Bar")
+    app.geometry("500x150")
+    app.grid_columnconfigure(0, weight=1)
+    app.grid_rowconfigure(0, weight=1)
+
+    progress = CoolProgressBar(app)
+    progress.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+
+    # Start demo animation
+    progress.animate_progress(duration=4)
+
     app.mainloop()

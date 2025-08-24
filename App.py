@@ -1,4 +1,5 @@
 import customtkinter as ctk 
+import time
 from Components.HeaderFrame import HeaderFrame
 from Components.HistoryFrame import HistoryFrame
 from Components.BodyFrame import BodyFrame
@@ -7,11 +8,12 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        ctk.set_appearance_mode("default")
-        ctk.set_default_color_theme("blue")
+        ctk.set_appearance_mode("dark")
+        ctk.set_default_color_theme("green")
 
         self.title("APIER")
         self.attributes("-fullscreen",True)
+        #self.iconbitmap("12445912.ico")
 
         self.grid_columnconfigure((1),weight=1)
         self.grid_rowconfigure(1,weight=1)
@@ -23,10 +25,10 @@ class App(ctk.CTk):
 
         self.body_frame = BodyFrame(self)
         self.body_frame.grid(row=1,column=1,sticky="nsew",pady=(5,5),padx=(5,5))
-
+        self.state("normal")
 
     def zooms(self):
-        self.state("zoomed")
+        self.iconify()
 
 app = App()
 app.mainloop()
