@@ -2,9 +2,10 @@ import customtkinter as ctk
 from .ParamsFrame import AttributeEntryFrame
 
 class TabFrame(ctk.CTkFrame):
-    def __init__(self,master,callback=None,**kwargs):
+    def __init__(self,master,callback=None,start_progress_callback1=None,**kwargs):
         super().__init__(master,**kwargs)
         self.callback=callback
+        self.start_progress_callback1=start_progress_callback1
         
         self.data = {"http_method":dict(),"url":"","params":dict(),"headers":dict(),"body":dict(),"cookies":dict(),"test":list(),"prerequset":list()}
 
@@ -26,7 +27,7 @@ class TabFrame(ctk.CTkFrame):
 
         self.request_option_frame.grid_columnconfigure(1,weight=1)
 
-        self.option_menu = ctk.CTkOptionMenu(self.request_option_frame,height=35,values=["GET","POST","PATCH","PUT","HEAD","OPTIONS"])
+        self.option_menu = ctk.CTkOptionMenu(self.request_option_frame,height=35,values=["GET","POST","PATCH","PUT","HEAD","OPTIONS","DELETE"])
         self.option_menu.set(value="GET")
         self.option_menu.grid(row=0,column=0)
 
@@ -59,6 +60,8 @@ class TabFrame(ctk.CTkFrame):
         
         self.select_attribute(self.attribute_frame_params)
         #self.implement_logic()
+    def enable_button(self):
+        self.send_btn.configure(state="normal")
 
     def select_attribute(self,attr):
         for frame in [
@@ -88,6 +91,8 @@ class TabFrame(ctk.CTkFrame):
         self.data["autherization"] = self.attribute_frame_autherization.get_data()
         #print(self.data)
         self.callback(self.data)
+        self.start_progress_callback1()
+        self.send_btn.configure(state="disabled")
         return self.data
 
 
