@@ -10,24 +10,21 @@ class ResponseFrame(ctk.CTkFrame):
         self.grid_rowconfigure(2,weight=1)
 
         self.label = ctk.CTkLabel(self,text="Response",font=("Arial", 16, "bold"))
-        self.label.grid(row=0,column=0,padx=10,pady=10)
-
         self.label2 = ctk.CTkLabel(self,text="Status Code")
-        self.label2.grid(row=0,column=4,padx=10)
-
         self.header_btn= ctk.CTkButton(self,text="Header",width=50,fg_color="transparent",command=self.on_header_click)
-        self.header_btn.grid(row=0,column=1,padx=(15,5))
         self.content_btn = ctk.CTkButton(self,text="Content",width=50,fg_color="transparent",command=self.on_content_click)
-        self.content_btn.grid(row=0,column=2)
-
         self.btn = ctk.CTkOptionMenu(self,height=30,values=["HTML","JSON","RAW"],command=self.pretify)
-        self.btn.grid(row=0,column=5,padx=(10),pady=10)
-
         self.progress = ctk.CTkProgressBar(self,orientation="horizontal",width=10,mode="indeterminate",indeterminate_speed=2)
-        self.progress.grid(row=1,column=0,columnspan=6,sticky="ew",padx=10)
-
         self.textbox = ctk.CTkTextbox(self,font=("Arial", 15, "normal"))
+
         self.textbox.configure(state="disabled")
+
+        self.label.grid(row=0,column=0,padx=10,pady=10)
+        self.label2.grid(row=0,column=4,padx=10)
+        self.header_btn.grid(row=0,column=1,padx=(15,5))
+        self.content_btn.grid(row=0,column=2)
+        self.btn.grid(row=0,column=5,padx=(10),pady=10)
+        self.progress.grid(row=1,column=0,columnspan=6,sticky="ew",padx=10)
         self.textbox.grid(row=2,column=0,columnspan=6,sticky="ewns",padx=10,pady=(0,10))
 
     def on_header_click(self):

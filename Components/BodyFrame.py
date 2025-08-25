@@ -16,9 +16,9 @@ class BodyFrame(ctk.CTkFrame):
         self.grid_columnconfigure(0,weight=1)
 
         self.request_frame = RequestFrame(self,callback=self.callback,start_progress_callback=self.start_progress_callback)
-        self.request_frame.grid(row=0,column=0,padx=(5,5),pady=(5,5),sticky="nsew")
-
         self.response_frame = ResponseFrame(self)
+
+        self.request_frame.grid(row=0,column=0,padx=(5,5),pady=(5,5),sticky="nsew")
         self.response_frame.grid(row=1,column=0,padx=(5,5),pady=(5,5),sticky="nsew")
 
      

@@ -11,9 +11,9 @@ class AttributeEntryFrame(ctk.CTkFrame):
         self.labeled=labeled
 
         self.label = ctk.CTkLabel(self,text=self.labeled,fg_color="transparent")
-        self.label.grid(row=0,column=0,sticky="w")
-
         self.table = KeyValueTableFrame(self)
+
+        self.label.grid(row=0,column=0,sticky="w")
         self.table.grid(row=1,column=0,sticky="nsew")
     def get_data(self):
         return self.table.get_data()

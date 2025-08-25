@@ -1,4 +1,5 @@
 import customtkinter as ctk
+#import time
 from Components.HeaderFrame import HeaderFrame
 from Components.HistoryFrame import HistoryFrame
 from Components.BodyFrame import BodyFrame
@@ -7,7 +8,8 @@ from Components.BodyFrame import BodyFrame
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-
+        #self.iconify()
+        #time.sleep(2)
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
@@ -23,24 +25,21 @@ class App(ctk.CTk):
         self.focused_frame = None
         self.focused_button = None
 
+        
         self.header_frame = HeaderFrame(self)
-        self.header_frame.grid(row=0, column=0, columnspan=2, sticky="ew")
-
         self.history_frame = HistoryFrame(self)
-        self.history_frame.grid(row=1, column=0, rowspan=2, sticky="nsw", padx=5, pady=5)
-
         self.tab_frame = ctk.CTkScrollableFrame(self, height=30, orientation="horizontal")
+        self.add_tab_button = ctk.CTkButton(self.tab_frame, text="+", width=50, command=self.__add_tab, fg_color=("orange", "green"))
+        self.__add_tab()
+        self.header_frame.grid(row=0, column=0, columnspan=2, sticky="ew")
+        self.history_frame.grid(row=1, column=0, rowspan=2, sticky="nsw", padx=5, pady=5)
         self.tab_frame.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
 
-        self.add_tab_button = ctk.CTkButton(
-            self.tab_frame, text="+", width=50, command=self.__add_tab, fg_color=("orange", "green")
-        )
+        
 
-        self.__add_tab()
-
-        self.bind("<F11>", lambda e: self.toggle_fullscreen())
-        self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
-
+        #self.__add_tab()
+        #self.after(5000, self.deiconify)
+        
     def toggle_fullscreen(self):
         self.attributes("-fullscreen", not self.attributes("-fullscreen"))
     
@@ -105,4 +104,5 @@ class App(ctk.CTk):
 
 if __name__ == "__main__":
     app = App()
+    #app.withdraw()
     app.mainloop()
