@@ -97,3 +97,4 @@ class ResponseFrame(ctk.CTkFrame):
         return http_status_names.get(status_code)
     def start_progress(self):
         self.progress.start()
+        self.print_data("")
