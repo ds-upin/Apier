@@ -21,7 +21,7 @@ class HttpClient:
         self.method = self.method.upper()
         if not self.headers:
             self.headers = {
-                "User-Agent": "Apier/1.0",
+                "User-Agent": "EndLITE/1.0",
                 "Accept": "application/json, */*"
             }
 
