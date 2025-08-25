@@ -97,10 +97,15 @@ class App(ctk.CTk):
     def focus_frame(self, body_frame, btn):
         if self.focused_frame and self.focused_frame.winfo_exists():
             self.focused_frame.grid_remove()
+        for b, _, _ in self.tabs:
+            b.configure(fg_color="transparent")  
+
+        btn.configure(fg_color="grey30") 
 
         body_frame.grid(row=2, column=1, sticky="nsew", padx=5, pady=5)
         self.focused_frame = body_frame
         self.focused_button = btn
+
 
 if __name__ == "__main__":
     app = App()
