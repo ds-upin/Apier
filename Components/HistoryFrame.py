@@ -14,9 +14,20 @@ class HistoryFrame(ctk.CTkFrame):
         self.scroll = ctk.CTkScrollableFrame(self,width=250)
         self.scroll.grid(row=1,column=0,padx=(5,10),pady=(5,5),sticky="ns")
 
-        for i in range(30):
-            label = ctk.CTkLabel(self.scroll, text=f"Label {i+1}")
-            label.grid(row=i,column=0,pady=5, padx=10, sticky="w")
-
+        self.i = 400
+            
         self.coll_frame = ctk.CTkFrame(self,height=100,width=250)
         self.coll_frame.grid(row=2,column=0, padx=(5,10),pady=(5,5), sticky="nsew")
+
+    def add_history(self,data):
+        if not data or data["url"].strip()=="":
+            return
+        label = ctk.CTkLabel(self.scroll, text=f"{data["http_method"]["method"]}   {data["url"]}")
+        label.grid(row=self.i,column=0,pady=5, padx=10, sticky="w")
+        self.i=self.i-1
+
+
+        # for i in range(0):
+        #     label = ctk.CTkLabel(self.scroll, text=f"Label {i+1}")
+        #     label.grid(row=i,column=0,pady=5, padx=10, sticky="w")
+        #     self.i=self.i+1

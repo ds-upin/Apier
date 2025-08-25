@@ -6,26 +6,50 @@ class ResponseFrame(ctk.CTkFrame):
     def __init__(self,master,**kwargs):
         super().__init__(master,**kwargs)
         self.response= None
-        self.grid_columnconfigure(1,weight=1)
+        self.grid_columnconfigure(3,weight=1)
         self.grid_rowconfigure(2,weight=1)
 
         self.label = ctk.CTkLabel(self,text="Response",font=("Arial", 16, "bold"))
         self.label.grid(row=0,column=0,padx=10,pady=10)
 
         self.label2 = ctk.CTkLabel(self,text="Status Code")
-        self.label2.grid(row=0,column=2,padx=10)
+        self.label2.grid(row=0,column=4,padx=10)
+
+        self.header_btn= ctk.CTkButton(self,text="Header",width=50,fg_color="transparent",command=self.on_header_click)
+        self.header_btn.grid(row=0,column=1,padx=(15,5))
+        self.content_btn = ctk.CTkButton(self,text="Content",width=50,fg_color="transparent",command=self.on_content_click)
+        self.content_btn.grid(row=0,column=2)
 
         self.btn = ctk.CTkOptionMenu(self,height=30,values=["HTML","JSON","RAW"],command=self.pretify)
-        self.btn.grid(row=0,column=3,padx=(10),pady=10)
+        self.btn.grid(row=0,column=5,padx=(10),pady=10)
 
         self.progress = ctk.CTkProgressBar(self,orientation="horizontal",width=10,mode="indeterminate",indeterminate_speed=2)
-        self.progress.grid(row=1,column=0,columnspan=4,sticky="ew",padx=10)
+        self.progress.grid(row=1,column=0,columnspan=6,sticky="ew",padx=10)
 
         self.textbox = ctk.CTkTextbox(self,font=("Arial", 15, "normal"))
         self.textbox.configure(state="disabled")
-        self.textbox.grid(row=2,column=0,columnspan=4,sticky="ewns",padx=10,pady=(0,10))
+        self.textbox.grid(row=2,column=0,columnspan=6,sticky="ewns",padx=10,pady=(0,10))
+
+    def on_header_click(self):
+        if self.response==None:
+            return
+        self.header_btn.configure(fg_color="grey")
+        self.content_btn.configure(fg_color="transparent")
+        header = dict(self.response.headers)
+        jsonn = json.dumps(header,indent=4)
+        self.print_data(jsonn)
+        self.btn.configure(state="disabled")
+    def on_content_click(self):
+        if self.response==None:
+            return
+        self.content_btn.configure(fg_color="grey")
+        self.header_btn.configure(fg_color="transparent")
+        self.btn.configure(state="normal")
+        self.recieve_and_emit_reponse(self.response)
     
     def recieve_and_emit_reponse(self,response):
+        self.response=response
+        self.content_btn.configure(fg_color="grey")
         self.progress.stop()
         if isinstance(response, BaseException):
             self.print_data(type(response).__name__)
@@ -68,8 +92,18 @@ class ResponseFrame(ctk.CTkFrame):
             return "HTML"
         return "RAW"
 
-    def pretify(self):
-        pass
+    def pretify(self,data_type):
+        if self.response==None:
+            return
+        if (data_type=="JSON"):
+            response = json.dumps(self.response.json(), indent=4)
+            self.print_data(response)
+        elif data_type=="HTML":
+            soup = BeautifulSoup(self.response.text, "lxml")
+            self.print_data(soup.prettify())
+        else:
+            self.print_data(self.response.content)
+        
 
     def get_status_message(self,status_code):
         http_status_names = {

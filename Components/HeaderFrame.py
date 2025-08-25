@@ -7,7 +7,7 @@ class HeaderFrame(ctk.CTkFrame):
 
         self.grid_columnconfigure((0,),weight=1)
 
-        self.head_label = ctk.CTkLabel(self,text="APIER",font=("Helvetica",20,"bold"))
+        self.head_label = ctk.CTkLabel(self,text="EndLITE",font=("Helvetica",20,"bold"))
         self.head_label.grid(row=0,column=0,padx=10,pady=(10,10))
         
         self.btn1 = ctk.CTkButton(self,text="_",height=30,width=30, command=self.minimize_window)

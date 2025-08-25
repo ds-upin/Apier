@@ -24,6 +24,7 @@ class BodyFrame(ctk.CTkFrame):
      
     def callback(self,data):
         self.data=data
+        self.master.history_data(data)
         def send_request_thread():
             try:
                 #print(self.data)

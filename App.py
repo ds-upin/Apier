@@ -9,9 +9,9 @@ class App(ctk.CTk):
         super().__init__()
 
         ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("green")
+        ctk.set_default_color_theme("blue")
 
-        self.title("APIER")
+        self.title("EndLITE")
         self.attributes("-fullscreen", True)
         self.state("normal")
 
@@ -33,18 +33,21 @@ class App(ctk.CTk):
         self.tab_frame.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
 
         self.add_tab_button = ctk.CTkButton(
-            self.tab_frame, text="+", width=50, command=self.add_tab, fg_color=("orange", "green")
+            self.tab_frame, text="+", width=50, command=self.__add_tab, fg_color=("orange", "green")
         )
 
-        self.add_tab()
+        self.__add_tab()
 
         self.bind("<F11>", lambda e: self.toggle_fullscreen())
         self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
 
     def toggle_fullscreen(self):
         self.attributes("-fullscreen", not self.attributes("-fullscreen"))
+    
+    def history_data(self,data):
+        self.history_frame.add_history(data)
 
-    def add_tab(self):
+    def __add_tab(self):
         tab_index = self.no_tabs
         body_frame = BodyFrame(self)
 
