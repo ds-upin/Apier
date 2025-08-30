@@ -10,6 +10,7 @@ class HttpClient:
         self.body = payload["body"]
         self.headers = payload["headers"]
         self.cookies = payload["cookies"]
+        #print("fffff",self.cookies)
         self.test = payload["test"]
         self.autherization = payload["autherization"]
         #self.prerequest = payload["prerequest"]
@@ -32,7 +33,7 @@ class HttpClient:
                 headers=self.headers,
                 params=None if len(self.params)==0 else self.params,
                 data=None if len(self.body)==0 else self.body,
-                cookies=None if len(self.cookies)==0 else cookies,
+                cookies=None if len(self.cookies)==0 else self.cookies,
                 auth=None if len(self.autherization)==0 else (self.autherization["user"],self.autherization["pass"]),
                 timeout=20
             )
